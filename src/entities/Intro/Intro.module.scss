@@ -1,0 +1,119 @@
+.intro {
+    position: relative;
+    margin-top: 80px;
+    height: 840px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+
+    * ::selection {
+        background-color: #333;
+    }
+}
+
+.intro__title,
+.intro__desc {
+    flex-basis: 50%;
+    min-width: 100%;
+}
+
+.intro__title {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    h1 {
+        padding: 0 14px;
+        text-align: center;
+        padding-bottom: 50px;
+        white-space: nowrap;
+        user-select: none;
+        font-weight: 600;
+        font-size: max(24px, min(5vw, 56px));
+    }
+}
+
+.intro__desc {
+    display: flex;
+
+    &>div {
+        flex-basis: 50%;
+        margin: 24px;
+    }
+}
+
+.intro__desc_text {
+    text-indent: -30px;
+    padding-left: 30px;
+    font-weight: 200;
+    font-size: max(12px, min(3vw, 25px));
+
+    &::first-letter {
+        font-weight: 500;
+    }
+}
+
+.intro__desc_photo_wrapper {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+
+
+
+
+    .intro__desc_photo {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        max-width: 360px;
+        aspect-ratio: 1;
+
+
+        border-radius: 6px;
+        border: solid #fff 2px;
+
+
+        span {
+            z-index: 20;
+            position: relative;
+            display: block;
+            top: 0;
+            left: 12px;
+            width: 100%;
+            height: 14px;
+            user-select: none;
+            pointer-events: none;
+            font-size: 12px;
+            color: #111;
+            line-height: 13px;
+
+        }
+
+        &::after {
+            z-index: 16;
+
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 110%;
+            height: 14px;
+            background-color: #fff;
+
+        }
+    }
+
+}
+
+.PHOTO {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    user-select: none;
+    pointer-events: none;
+    cursor: auto;
+    filter: grayscale(0.6);
+}

@@ -1,0 +1,35 @@
+@import url("./reset.scss");
+@import url("./variables/global.scss");
+@import url('https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap');
+
+
+body {
+    /* stylelint-disable-next-line font-family-name-quotes */
+    font-family: "Onest", sans-serif;
+    background-color: black;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+
+    /*  color: var(--primary-color);
+    background: var(--bg-color); */
+    min-height: 100vh;
+
+    * {
+        color: aliceblue
+    }
+}
+
+.page-wrapper {
+    max-width: 1400px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+
+
+main.content {
+    display: flex;
+    justify-content: center;
+}

@@ -1,0 +1,13 @@
+<svg 
+height="32" 
+width="32"
+role="separator" 
+viewBox="0 0 32 32"
+xmlns="http://www.w3.org/2000/svg"
+>
+  <path d="M22 5L9 28" 
+  stroke="#333" 
+  stroke-linecap="round" 
+  stroke-linejoin="round">
+  </path>
+</svg>

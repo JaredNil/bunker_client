@@ -1,0 +1,18 @@
+{
+    "Язык": "English",
+    "Тестовый пример": "Test example",
+    "Перевод": "Translation",
+    "О_сайте_титул": "About",
+    "Главная_титул": "MainPage",
+    "Страница не найдена": "Page not found",
+
+    "Произошла непредвиденная ошибка": "An unexpected error has occurred",
+    "Обновить страницу": "Reload application",
+
+    "Войти": "Auth",
+    "Выйти": "Exit",
+
+    "Введите username": "Type username",
+    "Введите password": "Type password"
+
+}
