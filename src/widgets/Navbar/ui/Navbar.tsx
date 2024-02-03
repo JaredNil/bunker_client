@@ -32,31 +32,11 @@ export const Navbar: React.FC = () => {
 					<li className={cls.navbar__anchor}>
 						Sample1
 					</li>
-					<li className={cls.navbar__anchor}>
-						Sample1
-					</li>
-					<li className={cls.navbar__anchor}>
-						Sample1
-					</li>
-					<li className={cls.navbar__anchor}>
-						Sample1
-					</li>
 				</ul>
 				<div className={cls.navbar__links}>
 					<div className={cls.navbar__link_ln}>
 						EN
 					</div>
-					<Link
-						className={
-							cls.navbar__link_gh
-						}
-						to="https://github.com/JaredNil"
-					>
-						<FaGithub
-							fill="#fff"
-							size={30}
-						/>
-					</Link>
 					<div className={cls.navbar__link_pj}>
 						<Link to="/">Проекты</Link>
 					</div>

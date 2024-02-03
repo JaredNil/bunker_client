@@ -1,7 +1,8 @@
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
-// import { StoreProvider } from 'app/providers/StoreProvider';
+import { StoreProvider } from 'app/providers/StoreProvider';
+import { WebsocketProvider } from 'app/providers/WebsocketProvider';
 // import { ErrorBoundary } from 'app/providers/ErrorBoundary';
 // import { ThemeProvider } from 'app/providers/ThemeProvider';
 
@@ -16,11 +17,13 @@ const container = document.getElementById('root');
 const root = createRoot(container);
 
 root.render(
-	// <StoreProvider>
-	<BrowserRouter>
-		{/* <ErrorBoundary> */}
-		<App />
-		{/* </ErrorBoundary> */}
-	</BrowserRouter>
-	// </StoreProvider>
+	<WebsocketProvider>
+		<StoreProvider>
+			<BrowserRouter>
+				{/* <ErrorBoundary> */}
+				<App />
+				{/* </ErrorBoundary> */}
+			</BrowserRouter>
+		</StoreProvider>
+	</WebsocketProvider>
 );

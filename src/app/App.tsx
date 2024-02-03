@@ -9,8 +9,6 @@ import { Navbar } from 'widgets/Navbar';
 import { AppRouter } from './providers/RouterProvider';
 
 const App: React.FC = () => {
-	// const dispatch = useDispatch();
-
 	return (
 		<div className="application">
 			<Suspense fallback="">
