@@ -1,0 +1,119 @@
+.authent {
+    position: relative;
+    margin-top: 200px;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 12px 20px;
+    border-radius: 12px;
+    background-color: #777;
+}
+
+.authent_title {
+    width: 100%;
+    text-align: center;
+    font-size: 36px;
+    font-weight: 200;
+}
+
+.authent_wrapper {
+    z-index: 10;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.authent_input {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    font-weight: 100;
+
+
+
+    span {
+        font-size: 24px;
+    }
+
+    input {
+        margin-left: 12px;
+        height: 30px;
+        font-size: 24px;
+        background-color: transparent;
+        border: none;
+        border-bottom: 2px solid #ff000085;
+
+        transition: all 0.15s ease 0s;
+
+        &::placeholder {
+            font-size: 20px;
+            line-height: 30px;
+            color: #ffffff3d;
+            font-weight: 100;
+        }
+
+        &:focus {
+            border: none;
+            outline: none;
+            border-bottom: 2px solid #f00c;
+        }
+    }
+}
+
+.authent_submit {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 50px;
+    padding-bottom: 30px;
+
+    .authent_submit-btn {
+        border: none;
+        background-color: #111;
+        width: 30%;
+        height: 50px;
+
+        font-size: 24px;
+        letter-spacing: 0.4px;
+        font-weight: 100;
+    }
+}
+
+
+
+
+.authent_error {
+    position: relative;
+    z-index: 11;
+    font-size: 24px;
+    font-weight: 100;
+    margin-bottom: 12px;
+
+    transition: all 0.15s ease 0s;
+
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.authent_error_item {
+    position: relative;
+    display: inline;
+    font-size: 16px;
+    top: 5px;
+    left: 10px;
+
+    div {
+        display: inline-block;
+        position: absolute;
+        left: -4px;
+        width: calc(100% + 8px);
+        height: 100%;
+        transform: skew(30deg);
+        background-color: #ff00003f;
+    }
+}
