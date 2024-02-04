@@ -11,13 +11,24 @@ import { AuthBlock } from 'widgets/AuthBlock/ui/AuthBlock';
 
 import { getUserData } from 'entities/User';
 
-import { useEffect } from 'react';
-
 import './mainpage.scss';
+import { requestUpdateByLogin, useWebsocket } from 'app/providers/WebsocketProvider';
 import cls from './MainPage.module.scss';
 
 const MainPage: React.FC = () => {
-	const { isAuth, nickname, players = ['Empty'] } = useSelector(getUserData);
+	const { isAuth, nickname } = useSelector(getUserData);
+	const { players } = useSelector((state: StateSchema) => state.game);
+
+	const { ws } = useWebsocket();
+
+	const updateDataByLogin = () => {
+		console.log('ws');
+		if (ws) {
+			if (isAuth) {
+				requestUpdateByLogin(ws, nickname);
+			}
+		}
+	};
 
 	return (
 		<Page className={cls.mainPage}>
@@ -35,6 +46,9 @@ const MainPage: React.FC = () => {
 								return <p key={p}>{p}</p>;
 							})}
 						</div>
+						<button className="client_list-update" type="button" onClick={updateDataByLogin}>
+							UPDATE
+						</button>
 					</>
 				) : (
 					<div className="client_list-user">Неавторизован</div>

@@ -1,14 +1,14 @@
 import { useState, ChangeEventHandler, useEffect, FC, useCallback, useRef } from 'react';
 import toastr from 'toastr';
 
-import { useWebsocket } from 'app/providers/WebsocketProvider/lib/useWebsocket';
+import { useWebsocket, requestAuthByLogin, requestLogoutByLogin } from 'app/providers/WebsocketProvider';
 
 import { Block } from 'shared/Block/Block';
 
 import './AuthBlock.scss';
 import { LoaderAuth } from 'shared/LoaderAuth/LoaderAuth';
 import { useDispatch, useSelector } from 'react-redux';
-import { StateSchema } from 'app/providers/StoreProvider/config/StateSchema';
+import { StateSchema } from 'app/providers/StoreProvider/';
 import { appAction } from 'entities/AppState';
 import { userAction } from 'entities/User';
 
@@ -95,17 +95,14 @@ export const AuthBlock: FC = () => {
 	const { isLoadingAuthData } = useSelector((state: StateSchema) => state.app);
 
 	const submitAuthByLogin = () => {
-		if (ws) {
-			ws.send(
-				JSON.stringify({
-					type: 'auth',
-					body: nicknameInput,
-				})
-			);
-			toastr.info('Вход... &#128273; &#128273; &#128273; ', null, { timeOut: 250 });
-			dispatch(appAction.activeLoaderAuthData());
-		} else {
-			toastr.error('Нет подключения к серверу. Перезагрузите страницу');
+		if (!isLoadingAuthData) {
+			if (ws) {
+				requestAuthByLogin(ws, nicknameInput);
+				toastr.info('Вход... &#128273; &#128273; &#128273; ', null, { timeOut: 250 });
+				dispatch(appAction.activeLoaderAuthData());
+			} else {
+				toastr.error('Нет подключения к серверу. Перезагрузите страницу');
+			}
 		}
 	};
 
@@ -113,12 +110,7 @@ export const AuthBlock: FC = () => {
 		dispatch(userAction.logoutAuthData());
 
 		if (ws) {
-			ws.send(
-				JSON.stringify({
-					type: 'logout',
-					body: nickname,
-				})
-			);
+			requestLogoutByLogin(ws, nicknameInput);
 			toastr.info('Выход... 	&#128511; 	&#128511; 	&#128511;', null, { timeOut: 250 });
 		} else {
 			toastr.error('Нет подключения к серверу. Но из аккаунта в приложении вы вышли.');

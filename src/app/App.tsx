@@ -1,14 +1,11 @@
-import { Suspense, useEffect, useState } from 'react';
-
-// import { Navbar } from 'widgets/Navbar';
-// import { Sidebar } from 'widgets/Sidebar';
-
-// import { useDispatch } from 'react-redux';
+import { Suspense, useEffect } from 'react';
 
 import { Navbar } from 'widgets/Navbar';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userAction } from 'entities/User';
-import { AppRouter } from './providers/RouterProvider';
+import { StateSchema } from 'app/providers/StoreProvider';
+import { AppRouter } from 'app/providers/RouterProvider';
+import { requestUpdateByLogin, useWebsocket } from 'app/providers/WebsocketProvider';
 
 const App: React.FC = () => {
 	const dispatch = useDispatch();

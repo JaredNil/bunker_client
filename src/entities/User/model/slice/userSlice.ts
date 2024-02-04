@@ -1,11 +1,11 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { USER_LOCALSTORAGE_KEY } from 'shared/const/localstorage';
+import { requestUpdateByLogin, useWebsocket } from 'app/providers/WebsocketProvider';
 import { UserSchema } from '../types/user';
 
 const initialState: UserSchema = {
 	isAuth: false,
 	nickname: '',
-	players: [],
 	needUpdate: false,
 };
 
@@ -16,32 +16,29 @@ export const userSlice = createSlice({
 		setAuthData: (state, action: PayloadAction<UserSchema>) => {
 			state.isAuth = action.payload.isAuth;
 			state.nickname = action.payload.nickname;
-			state.players = action.payload.players;
 			localStorage.setItem(USER_LOCALSTORAGE_KEY, JSON.stringify([action.payload.nickname, 'stg_ws_id']));
 		},
-		updatePlayersData: (state, action: PayloadAction<string[]>) => {
-			state.players = action.payload;
-		},
+		// updatePlayersData: (state, action: PayloadAction<string[]>) => {
+		// 	state.players = action.payload;
+		// },
 		initAuthData: (state) => {
 			const user = localStorage.getItem(USER_LOCALSTORAGE_KEY);
 
 			if (user) {
 				const [nickname, WsIdConnection] = JSON.parse(user);
-				console.log(nickname);
 				state.nickname = nickname;
 				state.isAuth = true;
 				state.needUpdate = true;
 			} else {
 				state.isAuth = false;
 				state.nickname = '';
-				state.players = [];
 				state.needUpdate = false;
 			}
 		},
 		logoutAuthData: (state) => {
 			state.isAuth = false;
 			state.nickname = '';
-			state.players = [];
+			// state.players = [];
 			state.needUpdate = false;
 			localStorage.removeItem(USER_LOCALSTORAGE_KEY);
 		},
