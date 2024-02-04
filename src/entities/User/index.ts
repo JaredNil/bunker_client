@@ -1,5 +1,5 @@
 export { userReducer, userAction } from './model/slice/userSlice';
 
-export { UserSchema, User } from './model/types/user';
+export { UserSchema } from './model/types/user';
 
-export { getUserWsData } from './model/selectors/getUserAuthData/getUserAuthData';
+export { getUserData } from './model/selectors/getUserAuthData/getUserAuthData';

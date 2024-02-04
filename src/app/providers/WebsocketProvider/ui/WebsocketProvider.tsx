@@ -1,5 +1,8 @@
+/* eslint-disable indent */
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 
+import { useDispatch } from 'react-redux';
+import { UserSchema, userAction } from 'entities/User';
 import { wsContext } from '../lib/wsContext';
 
 interface WebsocketProviderProps {
@@ -10,9 +13,9 @@ export const WebsocketProvider: React.FC<WebsocketProviderProps> = ({
 	children,
 }: WebsocketProviderProps) => {
 	const [ws, setWs] = useState(null);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
-		console.log('HOOK useWebsocket RENDER');
 		const websocket = new WebSocket('ws://localhost:8001');
 
 		setWs(websocket);
@@ -20,10 +23,41 @@ export const WebsocketProvider: React.FC<WebsocketProviderProps> = ({
 		websocket.onopen = () => {
 			console.log('Client webSocket connection start');
 		};
+
+		websocket.onmessage = ({ data }) => {
+			data = JSON.parse(data);
+
+			console.log('Sent message');
+			console.log(data);
+			switch (data.type) {
+				case 'auth_res':
+					dispatch(
+						userAction.setAuthData({
+							isAuth: true,
+							nickname: data.nickname,
+							players: data.clientList,
+						})
+					);
+					break;
+				case 'sm':
+					break;
+				default:
+					break;
+			}
+		};
+
+		websocket.onerror = (error) => {
+			console.log(error);
+		};
+
+		websocket.onclose = () => {
+			console.log('Client webSocket connection END');
+		};
+		console.log(websocket);
 		return () => {
 			websocket.close();
 		};
-	}, [setWs]);
+	}, [setWs, dispatch]);
 
 	const wsConfiguration = useMemo(
 		() => ({

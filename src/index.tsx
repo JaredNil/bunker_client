@@ -17,13 +17,13 @@ const container = document.getElementById('root');
 const root = createRoot(container);
 
 root.render(
-	<WebsocketProvider>
-		<StoreProvider>
+	<StoreProvider>
+		<WebsocketProvider>
 			<BrowserRouter>
 				{/* <ErrorBoundary> */}
 				<App />
 				{/* </ErrorBoundary> */}
 			</BrowserRouter>
-		</StoreProvider>
-	</WebsocketProvider>
+		</WebsocketProvider>
+	</StoreProvider>
 );

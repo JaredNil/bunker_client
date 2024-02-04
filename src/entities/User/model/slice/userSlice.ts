@@ -1,18 +1,24 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { USER_LOCALSTORAGE_KEY } from 'shared/const/localstorage';
-import { UserSchema, WsData } from '../types/user';
+import { UserSchema } from '../types/user';
 
 const initialState: UserSchema = {
-	connectionWS: { ws: null, wsId: 'SAMPLEID' },
-	authData: null,
+	isAuth: false,
+	nickname: '0',
+	players: ['0', '0'],
 };
 
 export const userSlice = createSlice({
 	name: 'user',
 	initialState,
 	reducers: {
-		setWsData: (state, action: PayloadAction<WsData>) => {
-			state.connectionWS = action.payload;
+		setAuthData: (state, action: PayloadAction<UserSchema>) => {
+			state.isAuth = action.payload.isAuth;
+			state.nickname = action.payload.nickname;
+			state.players = action.payload.players;
+		},
+		updatePlayersData: (state, action: PayloadAction<string[]>) => {
+			state.players = action.payload;
 		},
 		// setAuthData: (state, action: PayloadAction<User>) => {
 		// 	state.authData = action.payload;

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { ReactNode } from 'react';
 import { Provider } from 'react-redux';
 import { createReduxStore } from '../config/store';
