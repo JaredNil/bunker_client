@@ -7,9 +7,13 @@ import { Block } from 'shared/Block/Block';
 
 import './AuthBlock.scss';
 import { LoaderAuth } from 'shared/LoaderAuth/LoaderAuth';
+import { useDispatch, useSelector } from 'react-redux';
+import { StateSchema } from 'app/providers/StoreProvider/config/StateSchema';
+import { appAction } from 'entities/AppState';
+import { userAction } from 'entities/User';
 
 export const AuthBlock: FC = () => {
-	const [nickname, setNickname] = useState<string>(null);
+	const [nicknameInput, setNicknameInput] = useState<string>(null);
 
 	const inputRef = useRef(null);
 
@@ -40,27 +44,27 @@ export const AuthBlock: FC = () => {
 		Object.keys(validateError).forEach((error) => {
 			if (validateError[error]) errorFlag = true;
 		});
-		if (!nickname) {
+		if (!nicknameInput) {
 			errorFlag = true;
 		}
 		setIsError(errorFlag);
-	}, [validateError, ErrorExplain, nickname]);
+	}, [validateError, ErrorExplain, nicknameInput]);
 
-	const validatenicknamename = useCallback(
-		(nicknamename: string): void => {
+	const validateNickname = useCallback(
+		(nn: string): void => {
 			const newValidate: ValidateRecordType = { ...validateError };
 
-			if (!/([^.]){3}/i.test(nicknamename)) {
+			if (!/([^.]){3}/i.test(nn)) {
 				newValidate.min3 = true;
 			} else {
 				newValidate.min3 = false;
 			}
-			if (!/^(.){0,20}$/i.test(nicknamename)) {
+			if (!/^(.){0,20}$/i.test(nn)) {
 				newValidate.max20 = true;
 			} else {
 				newValidate.max20 = false;
 			}
-			if (!/^([[A-Za-z0-9_]*)$/i.test(nicknamename)) {
+			if (!/^([[A-Za-z0-9_]*)$/i.test(nn)) {
 				newValidate.prohibitionSymbol = true;
 			} else {
 				newValidate.prohibitionSymbol = false;
@@ -72,13 +76,13 @@ export const AuthBlock: FC = () => {
 	);
 
 	const changenicknameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setNickname(String(e.target.value));
+		setNicknameInput(String(e.target.value));
 	};
 
 	useEffect(() => {
-		validatenicknamename(nickname);
+		validateNickname(nicknameInput);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [nickname]);
+	}, [nicknameInput]);
 
 	useEffect(() => {
 		inputRef.current.focus();
@@ -86,28 +90,44 @@ export const AuthBlock: FC = () => {
 
 	// Loading by server
 
-	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const dispatch = useDispatch();
+	const { isAuth, nickname } = useSelector((state: StateSchema) => state.user);
+	const { isLoadingAuthData } = useSelector((state: StateSchema) => state.app);
 
 	const submitAuthByLogin = () => {
 		if (ws) {
 			ws.send(
 				JSON.stringify({
 					type: 'auth',
+					body: nicknameInput,
+				})
+			);
+			toastr.info('Вход... &#128273; &#128273; &#128273; ', null, { timeOut: 250 });
+			dispatch(appAction.activeLoaderAuthData());
+		} else {
+			toastr.error('Нет подключения к серверу. Перезагрузите страницу');
+		}
+	};
+
+	const logoutAuthByLogin = () => {
+		dispatch(userAction.logoutAuthData());
+
+		if (ws) {
+			ws.send(
+				JSON.stringify({
+					type: 'logout',
 					body: nickname,
 				})
 			);
-			toastr.info('Входим в аккаунт');
-			setIsLoading(true);
+			toastr.info('Выход... 	&#128511; 	&#128511; 	&#128511;', null, { timeOut: 250 });
 		} else {
-			toastr.error(
-				'Нет подключения к серверу. Перезагрузите страницу'
-			);
+			toastr.error('Нет подключения к серверу. Но из аккаунта в приложении вы вышли.');
 		}
 	};
 
 	return (
 		<Block className="authent">
-			<div className="authent_title">Аутентификация {nickname}</div>
+			<div className="authent_title">{isAuth ? `Пользователь ${nickname}` : `Аутентификация ${nickname}`}</div>
 
 			<div className="authent_wrapper">
 				<div className="authent_input">
@@ -115,54 +135,30 @@ export const AuthBlock: FC = () => {
 					<input
 						type="text"
 						placeholder="type meh..."
-						disabled={isLoading}
+						disabled={isLoadingAuthData}
 						ref={inputRef}
-						value={nickname || ''}
-						onChange={
-							changenicknameHandler
-						}
+						value={nicknameInput || ''}
+						onChange={changenicknameHandler}
 					/>
 				</div>
 				<div className="authent_submit">
-					<button
-						type="submit"
-						className="authent_submit-btn"
-						onClick={submitAuthByLogin}
-						disabled={isError}
-					>
-						{isLoading ? (
-							<LoaderAuth />
-						) : (
-							<span>
-								Войти
-							</span>
-						)}
-					</button>
+					{isAuth ? (
+						<button type="submit" className="authent_submit-btn" onClick={logoutAuthByLogin}>
+							<span>Выйти</span>
+						</button>
+					) : (
+						<button type="submit" className="authent_submit-btn" onClick={submitAuthByLogin} disabled={isError}>
+							{isLoadingAuthData ? <LoaderAuth /> : <span>Войти</span>}
+						</button>
+					)}
 				</div>
 				{isError && (
 					<div className="authent_error">
-						{Object.keys(
-							validateError
-						).map((err) => {
-							if (
-								validateError[
-									err
-								]
-							) {
+						{Object.keys(validateError).map((err) => {
+							if (validateError[err]) {
 								return (
-									<div
-										key={
-											err
-										}
-										className="authent_error_item"
-									>
-										<span>
-											{
-												ErrorExplain[
-													err
-												]
-											}
-										</span>
+									<div key={err} className="authent_error_item">
+										<span>{ErrorExplain[err]}</span>
 										<div />
 									</div>
 								);

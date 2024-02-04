@@ -17,7 +17,7 @@ import './mainpage.scss';
 import cls from './MainPage.module.scss';
 
 const MainPage: React.FC = () => {
-	const { isAuth, nickname, players } = useSelector(getUserData);
+	const { isAuth, nickname, players = ['Empty'] } = useSelector(getUserData);
 
 	return (
 		<Page className={cls.mainPage}>
@@ -26,38 +26,18 @@ const MainPage: React.FC = () => {
 				{isAuth ? (
 					<>
 						<div className="client_list-user">
-							<p className="client_list-user_title">
-								User:
-							</p>
+							<p className="client_list-user_title">User:</p>
 							{nickname}
 						</div>
 						<div className="client_list-user">
-							<p className="client_list-user_title">
-								PlayerList:
-							</p>
-							{players.map(
-								(
-									p
-								) => {
-									return (
-										<p
-											key={
-												p
-											}
-										>
-											{
-												p
-											}
-										</p>
-									);
-								}
-							)}
+							<p className="client_list-user_title">PlayerList:</p>
+							{players.map((p) => {
+								return <p key={p}>{p}</p>;
+							})}
 						</div>
 					</>
 				) : (
-					<div className="client_list-user">
-						Неавторизован
-					</div>
+					<div className="client_list-user">Неавторизован</div>
 				)}
 			</Block>
 		</Page>
