@@ -1,20 +1,8 @@
-import type webpack from 'webpack';
-
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-
+import webpack from 'webpack';
 import { type BuildOptions } from './types/config';
 import { buildScssLoader } from './loaders/ScssLoader';
 
-export default function buildLoader({
-	isDev,
-}: BuildOptions): webpack.RuleSetRule[] {
-	const tsLoader = {
-		test: /\.tsx?$/,
-		use: 'ts-loader',
-		exclude: /node_modules/,
-	};
-	const scssLoader = buildScssLoader(isDev);
-
+export function buildLoaders({ isDev }: BuildOptions): webpack.RuleSetRule[] {
 	const svgLoader = {
 		test: /\.svg$/,
 		use: [
@@ -22,6 +10,13 @@ export default function buildLoader({
 				loader: '@svgr/webpack',
 			},
 		],
+	};
+	const scssLoader = buildScssLoader(isDev);
+
+	const tsLoader = {
+		test: /\.tsx?$/,
+		use: 'ts-loader',
+		exclude: /node_modules/,
 	};
 
 	const fileLoader = {

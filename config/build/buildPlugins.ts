@@ -1,16 +1,14 @@
 import webpack from 'webpack';
-import path from 'path';
 
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
-
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+import CopyPlugin from 'copy-webpack-plugin';
 import { type BuildOptions } from './types/config';
 
-function buildPlugins(options: BuildOptions): webpack.WebpackPluginInstance[] {
-	const { mode, paths, isDev } = options;
-
-	return [
+export function buildPlugins({ apiUrl, paths, isDev, project }: BuildOptions): webpack.WebpackPluginInstance[] {
+	const plugins = [
 		new HtmlWebpackPlugin({
 			template: paths.html,
 		}),
@@ -21,12 +19,21 @@ function buildPlugins(options: BuildOptions): webpack.WebpackPluginInstance[] {
 		}),
 		new webpack.DefinePlugin({
 			__IS_DEV__: JSON.stringify(isDev),
+			__API__: JSON.stringify(apiUrl),
+			__PROJECT__: JSON.stringify(project),
 		}),
-		new webpack.HotModuleReplacementPlugin(),
-		new BundleAnalyzerPlugin({
-			openAnalyzer: false,
+		new CopyPlugin({
+			patterns: [{ from: paths.locales, to: paths.buildLocales }],
 		}),
 	];
-}
 
-export default buildPlugins;
+	if (isDev) {
+		plugins.push(new ReactRefreshWebpackPlugin());
+		plugins.push(new webpack.HotModuleReplacementPlugin());
+		new BundleAnalyzerPlugin({
+			openAnalyzer: false,
+		});
+	}
+
+	return plugins;
+}

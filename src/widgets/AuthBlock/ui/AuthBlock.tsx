@@ -110,7 +110,7 @@ export const AuthBlock: FC = () => {
 		dispatch(userAction.logoutAuthData());
 
 		if (ws) {
-			requestLogoutByLogin(ws, nicknameInput);
+			requestLogoutByLogin(ws, nickname);
 			toastr.info('Выход... 	&#128511; 	&#128511; 	&#128511;', null, { timeOut: 250 });
 		} else {
 			toastr.error('Нет подключения к серверу. Но из аккаунта в приложении вы вышли.');
