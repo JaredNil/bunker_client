@@ -18,7 +18,8 @@ export const WebsocketProvider: React.FC<WebsocketProviderProps> = ({ children }
 
 	useEffect(() => {
 		const websocket = new WebSocket('ws://localhost:8001');
-
+		// const websocket = new WebSocket('wss://bunker-server.vercel.app/');
+		console.log(websocket);
 		setWs(websocket);
 
 		websocket.onopen = () => {

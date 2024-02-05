@@ -13,6 +13,7 @@ import { getUserData } from 'entities/User';
 
 import './mainpage.scss';
 import { requestUpdateByLogin, useWebsocket } from 'app/providers/WebsocketProvider';
+import { LaunchGameBlock } from 'widgets/LaunchGameBlock';
 import cls from './MainPage.module.scss';
 
 const MainPage: React.FC = () => {
@@ -32,7 +33,8 @@ const MainPage: React.FC = () => {
 
 	return (
 		<Page className={cls.mainPage}>
-			<AuthBlock />
+			{isAuth ? <LaunchGameBlock /> : <AuthBlock />}
+
 			<Block className="client_list">
 				{isAuth ? (
 					<>

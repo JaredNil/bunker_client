@@ -12,7 +12,9 @@ const AppRouter: React.FC = () => {
 					path={path}
 					element={
 						<Suspense fallback="">
-							<div className="page-wrapper">{element}</div>
+							{/* <div className="page-wrapper"> */}
+							{element}
+							{/* </div> */}
 						</Suspense>
 					}
 				/>

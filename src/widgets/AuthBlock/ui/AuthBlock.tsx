@@ -5,12 +5,13 @@ import { useWebsocket, requestAuthByLogin, requestLogoutByLogin } from 'app/prov
 
 import { Block } from 'shared/Block/Block';
 
-import './AuthBlock.scss';
 import { LoaderAuth } from 'shared/LoaderAuth/LoaderAuth';
 import { useDispatch, useSelector } from 'react-redux';
 import { StateSchema } from 'app/providers/StoreProvider/';
 import { appAction } from 'entities/AppState';
 import { userAction } from 'entities/User';
+
+import './AuthBlock.scss';
 
 export const AuthBlock: FC = () => {
 	const [nicknameInput, setNicknameInput] = useState<string>(null);

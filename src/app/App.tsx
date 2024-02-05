@@ -6,6 +6,7 @@ import { userAction } from 'entities/User';
 import { StateSchema } from 'app/providers/StoreProvider';
 import { AppRouter } from 'app/providers/RouterProvider';
 import { requestUpdateByLogin, useWebsocket } from 'app/providers/WebsocketProvider';
+import { Footer } from 'widgets/Footer';
 
 const App: React.FC = () => {
 	const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const App: React.FC = () => {
 				<main className="content">
 					<AppRouter />
 				</main>
+				<Footer />
 			</Suspense>
 		</div>
 	);

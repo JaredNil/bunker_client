@@ -57,7 +57,7 @@ export const Navbar: React.FC = () => {
 				<div className={cls.navbar__links}>
 					<ul className={cls.navbar__anchors}>
 						<li className={cls.navbar__anchor}>
-							<Link to="/">Игра</Link>
+							<Link to="/game">Игра</Link>
 						</li>
 						<li className={cls.navbar__anchor}>
 							<Link to="/">Комнаты</Link>
